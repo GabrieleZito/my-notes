@@ -2,10 +2,12 @@ import { ArrowLeftFromLine, ArrowRightFromLine, CirclePlus, EllipsisVertical } f
 import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { availableIcons } from "@/assets/icons";
 
 export function Sidebar(props) {
     const [isOpen, setIsOpen] = useState(true);
     const [counter, setCounter] = useLocalStorage("counter", 0);
+
     const navigate = useNavigate();
 
     const showSidebar = () => {
@@ -13,7 +15,7 @@ export function Sidebar(props) {
     };
 
     const createNote = async () => {
-        console.log("cliccato");
+        //console.log("cliccato");
 
         const index = counter + 1;
         const newNote = {
@@ -35,7 +37,13 @@ export function Sidebar(props) {
                 >
                     <div className="flex flex-col">
                         <div className="flex items-center justify-between p-3">
-                            {isOpen ? <div className="truncate text-2xl text-white">My Notes</div> : ""}
+                            {isOpen ? (
+                                <Link to={"/"}>
+                                    <div className="truncate text-2xl text-white">My Notes</div>
+                                </Link>
+                            ) : (
+                                ""
+                            )}
                             <div className="rounded-sm p-1 shadow-sm hover:cursor-pointer" onClick={showSidebar}>
                                 {isOpen ? <ArrowLeftFromLine color="white" /> : <ArrowRightFromLine color="white" />}
                             </div>
@@ -53,7 +61,7 @@ export function Sidebar(props) {
                                     <div
                                         className={`hover:bg-secondary-dark-hover flex items-center gap-2 p-3 hover:cursor-pointer hover:rounded-md ${isOpen ? "mx-2" : "p-0"}`}
                                     >
-                                        <div className="text-white">{n.title}</div>
+                                        {isOpen ? <div className="text-white">{n.title}</div> : <div className="text-white justify-center items-center ml-2">{n.title[0]}</div>}
                                     </div>
                                 </Link>
                             ))}
